@@ -1430,6 +1430,49 @@ def get_principal_axis(atoms: ndarray, V: ndarray) -> ndarray:
 
     return principal_axis
 
+def calculate_angle(
+        P: ndarray, 
+        A: int,
+        B: int,
+        C: int
+) -> float:
+    """
+    Calculate the angle between three atoms where B is the center atom. 
+    A, B, C are integers corresponding to order of desired atoms in XYZ file.
+
+    
+    Parameters:
+    -----------
+     P : array
+        (N,D) matrix, where N is points and D is dimension.
+     A : integer
+     B : integer  
+     C : integer
+        
+    Returns:
+    --------
+    float
+        Angle in degrees
+    """
+    # Vector from center atom to first atom
+    vector1 = P[A] - P[B]
+    # Vector from center atom to third atom
+    vector2 = P[C] - P[B]
+    
+    # Normalize the vectors
+    vector1_norm = vector1 / np.linalg.norm(vector1)
+    vector2_norm = vector2 / np.linalg.norm(vector2)
+    
+    # Calculate dot product and angle
+    dot_product = np.dot(vector1_norm, vector2_norm)
+    # Clip to handle floating point errors
+    dot_product = np.clip(dot_product, -1.0, 1.0)
+    angle = np.arccos(dot_product)
+    angle = np.degrees(angle)
+    
+    # Convert to degrees
+    return angle
+
 
 def set_coordinates(
     atoms: ndarray,

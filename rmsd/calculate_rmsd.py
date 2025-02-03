@@ -1455,9 +1455,9 @@ def calculate_angle(
         Angle in degrees
     """
     # Vector from center atom to first atom
-    vector1 = P[A] - P[B]
+    vector1 = P[1][A] - P[1][B]
     # Vector from center atom to third atom
-    vector2 = P[C] - P[B]
+    vector2 = P[1][C] - P[1][B]
     
     # Normalize the vectors
     vector1_norm = vector1 / np.linalg.norm(vector1)
@@ -1468,7 +1468,7 @@ def calculate_angle(
     # Clip to handle floating point errors
     dot_product = np.clip(dot_product, -1.0, 1.0)
     angle = np.arccos(dot_product)
-    angle = np.degrees(angle)
+    angle = float(np.degrees(angle))
     
     # Convert to degrees
     return angle
